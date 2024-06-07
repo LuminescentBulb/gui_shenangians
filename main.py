@@ -7,19 +7,40 @@ class Calc:
         self.calc = calculator.Calculator()
         self.first = 0
         self.second = 0
+        self.operation = ""
+        self.second_input = False
 
     def evaluate(self, option):
         self.calc.x = self.first
         self.calc.y = self.second
-        if self.calc.operation == "":
-            self.calc.operation = option
-            print("no operation yet")
-            return
-        
+        if (option == "multiply" or option == "divide" or 
+            option == "add" or option == "subtract"):
+            if self.operation != option:
+                self.operation = option
+                print("no operation yet")
+                return
+            if self.second_input == False:
+                print("second input not detected!")
+                return
 
-        self.first = self.calc.evaluate()
-        self.second = 0
-        
+        match option:
+            case "multiply":
+                self.first = self.calc.multiply()
+            case "divide":
+                self.first = self.calc.divide()
+            case "add":
+                self.first = self.calc.add()
+            case "subtract":
+                self.first = self.calc.subtract()
+            case "percent":
+                self.first = self.calc.percent()
+            case "plusminus":
+                self.first = self.calc.plusminus()
+            case _:
+                raise ValueError
+            
+        self.operation = ""
+        self.second = 0 # Reset the second part to zero
         result_window.configure(text = self.first)
 
     def test(self):
@@ -54,53 +75,48 @@ result_window = tkinter.Label(window,
 #result_window.pack(side = "top", expand = "False")
 result_window.grid(row = 0, column = 0)
 
-frame_row_one = tkinter.Frame(window)
+frame_row_one = tkinter.Frame(window, 
+                              padx = 0,
+                              pady = 0,
+                              width = 20,
+                              height = 5,
+                              bd = 0)
 frame_row_one.grid(row = 1, column = 0)
 
 multiply_button = tkinter.Button(frame_row_one,
                                  text = "X",
                                  relief = "solid",
                                  command = lambda: c.evaluate("multiply"),
-                                 width = 3,
-                                 height = 3,
                                  bd = 0,
-                                 font = ("Kozuka Mincho Pro M", 20),
-                                 repeatdelay=1000,
-                                 repeatinterval=100
+                                 font = ("Kozuka Mincho Pro M", 60)
                                  )
 #multiply_button.pack()
-multiply_button.pack(side = "right")
+multiply_button.pack(side = "right", expand = "True")
 
 divide_button = tkinter.Button(frame_row_one,
                                  text = "÷",
                                  relief = "solid",
                                  command = lambda: c.evaluate("divide"),
-                                 width = 3,
-                                 height = 3,
                                  bd = 0,
-                                 font = ("Kozuka Mincho Pro M", 20)
+                                 font = ("Kozuka Mincho Pro M", 60)
                                  )
 divide_button.pack(side = "right")
 
-test_button = tkinter.Button(frame_row_one,
-                                 text = "test",
+percent_button = tkinter.Button(frame_row_one,
+                                 text = "%",
                                  relief = "solid",
-                                 command = c.test,
-                                 width = 3,
-                                 height = 3,
+                                 command = lambda: c.evaluate("percent"),
                                  bd = 0,
-                                 font = ("Kozuka Mincho Pro M", 20)
+                                 font = ("Kozuka Mincho Pro M", 60)
                                  )
-test_button.pack(side = "right")
+percent_button.pack(side = "right")
 
 del_button = tkinter.Button(frame_row_one,
                                  text = "C",
                                  relief = "solid",
                                  command = c.clear,
-                                 width = 3,
-                                 height = 3,
                                  bd = 0,
-                                 font = ("Kozuka Mincho Pro M", 20)
+                                 font = ("Kozuka Mincho Pro M", 60)
                                  )
 del_button.pack(side = "left")
 

@@ -2,20 +2,27 @@ import numpy
 
 class Calculator:
     def __init__(self):
-        self.operation = ""
         self.x = 0
         self.y = 0
     
-    def evaluate(self):
-        if self.operation == "":
-            return
+    def multiply(self):
+        return self.x * self.y
+    
+    def divide(self):
+        if self.y == 0:
+            return "Not a number"
         
-        if self.operation == "multiply":
-            self.x = self.x * self.y
-            self.y = 0
-            return self.x
-        
-        if self.operation == "divide":
-            self.x = self.x / self.y
-            self.y = 0
-            return self.x
+        return self.x / self.y
+
+    def percent(self):
+        return self.x / 100.0
+    
+    def add(self):
+        return self.x + self.y
+    
+    def subtract(self):
+        return self.x - self.y
+    
+    def plusminus(self):
+        return -1 * self.x
+    
